@@ -1,0 +1,82 @@
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [8, 4, 6, 7], "forbidde
+{"number": 9, "squareNumber": 0, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 2, "squareNumber": 0, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [4, 6], "forbiddenNumbe
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [8, 1, 4], "forbiddenNu
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [1, 6], "forbiddenNumbe
+{"number": 3, "squareNumber": 2, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 5, "squareNumber": 2, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [8, 4, 6, 7], "forbidde
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [4, 5, 6, 7, 8], "forbi
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [8, 5, 6], "forbiddenNu
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [8, 4, 6], "forbiddenNu
+{"number": 3, "squareNumber": 1, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [1, 4, 5, 8, 9], "forbi
+{"number": 2, "squareNumber": 1, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [6, 7], "forbiddenNumbe
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [1, 4, 6, 7, 8], "forbi
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [8, 4, 6, 7], "forbidde
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [3, 4, 5, 6, 8], "forbi
+{"number": 0, "squareNumber": 0, "isConstant": false, "possibleNumbers": [8, 5, 6], "forbiddenNu
+{"number": 1, "squareNumber": 0, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [4, 5, 6], "forbiddenNu
+{"number": 7, "squareNumber": 1, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 1, "isConstant": false, "possibleNumbers": [5, 6], "forbiddenNumbe
+{"number": 9, "squareNumber": 2, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [8, 4, 6], "forbiddenNu
+{"number": 0, "squareNumber": 2, "isConstant": false, "possibleNumbers": [8, 2, 4, 6], "forbidde
+{"number": 0, "squareNumber": 3, "isConstant": false, "possibleNumbers": [8, 1, 5, 6], "forbidde
+{"number": 4, "squareNumber": 3, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 3, "isConstant": false, "possibleNumbers": [8, 6], "forbiddenNumbe
+{"number": 9, "squareNumber": 4, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 4, "isConstant": false, "possibleNumbers": [5], "forbiddenNumbers"
+{"number": 3, "squareNumber": 4, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 5, "isConstant": false, "possibleNumbers": [5, 6, 7], "forbiddenNu
+{"number": 2, "squareNumber": 5, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 5, "isConstant": false, "possibleNumbers": [5, 6, 7], "forbiddenNu
+{"number": 9, "squareNumber": 3, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 3, "isConstant": false, "possibleNumbers": [5, 6], "forbiddenNumbe
+{"number": 3, "squareNumber": 3, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 4, "isConstant": false, "possibleNumbers": [4, 5, 6, 7], "forbidde
+{"number": 2, "squareNumber": 4, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 4, "isConstant": false, "possibleNumbers": [5, 6, 7], "forbiddenNu
+{"number": 8, "squareNumber": 5, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 5, "isConstant": false, "possibleNumbers": [4, 6, 7], "forbiddenNu
+{"number": 1, "squareNumber": 5, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 3, "isConstant": false, "possibleNumbers": [2, 5, 6], "forbiddenNu
+{"number": 7, "squareNumber": 3, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 3, "isConstant": false, "possibleNumbers": [6], "forbiddenNumbers"
+{"number": 1, "squareNumber": 4, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 4, "isConstant": false, "possibleNumbers": [4, 5], "forbiddenNumbe
+{"number": 8, "squareNumber": 4, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 5, "isConstant": false, "possibleNumbers": [5, 6], "forbiddenNumbe
+{"number": 3, "squareNumber": 5, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 5, "isConstant": false, "possibleNumbers": [9, 4, 5, 6], "forbidde
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [8, 2, 4], "forbiddenNu
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [8, 2], "forbiddenNumbe
+{"number": 7, "squareNumber": 6, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [2, 5], "forbiddenNumbe
+{"number": 6, "squareNumber": 7, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [9, 5], "forbiddenNumbe
+{"number": 1, "squareNumber": 8, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [8], "forbiddenNumbers"
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [8, 2, 3, 5], "forbidde
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [1, 2, 6], "forbiddenNu
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [1, 2, 6], "forbiddenNu
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [9, 6], "forbiddenNumbe
+{"number": 8, "squareNumber": 7, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [1, 3, 5, 9], "forbidde
+{"number": 4, "squareNumber": 7, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [2, 5, 6, 7], "forbidde
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [6, 7], "forbiddenNumbe
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [2, 3, 5, 6, 7], "forbi
+{"number": 0, "squareNumber": 6, "isConstant": false, "possibleNumbers": [8, 1, 2, 6], "forbidde
+{"number": 3, "squareNumber": 6, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 5, "squareNumber": 6, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [2, 7], "forbiddenNumbe
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [1], "forbiddenNumbers"
+{"number": 0, "squareNumber": 7, "isConstant": false, "possibleNumbers": [1, 7], "forbiddenNumbe
+{"number": 4, "squareNumber": 8, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 9, "squareNumber": 8, "isConstant": true, "possibleNumbers": [0], "forbiddenNumbers":
+{"number": 0, "squareNumber": 8, "isConstant": false, "possibleNumbers": [8, 2, 6, 7], "forbidde
+-
