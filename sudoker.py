@@ -1,5 +1,4 @@
 from enum import Enum
-import json
 
 class sudokuSolver:
     def __init__(self, table):
@@ -8,31 +7,41 @@ class sudokuSolver:
         self.state = Enum('state', ['error'])
         self.changes = 0
         print('sudokuSolver instantiated')
-        self.solveProcess()
+        self.solveSudoku()
+        self.printBeautySudoku()
         
-    def solveProcess(self):
+        # print(self.convertToPossibleNumbers(self.check_singleSquare(7,3)))
+        # print(self.convertToPossibleNumbers(self.check_singleSquare(6,3)))
+        # print(self.convertToPossibleNumbers(self.check_singleSquare(6,5)))
+    
+    def printBeautySudoku(self):
+        sudokuText = '['
+        separators = [2, 5]
+        for row in self.table:
+            for c, number in enumerate(row):
+                sudokuText += str(number) + ' '
+                if c in separators:
+                    sudokuText += '\t'
+            sudokuText += '\n'
+            if self.table.index(row) in separators:
+                sudokuText += '\n'
+        
+        return print(sudokuText)
+                
+            
+    def solveSudoku(self):
         print('sudokuSolver start to solve the sudoku')
         self.tableDetailer()
         print('table detailed')
         
         while self.check_isFinished() == False:
-            while True:
-                somethingChange = self.check_oneChanceNumber()
-                self.tableDetailer()
-                if somethingChange == False:
-                    break
-            print("First method is dead")
-            
-            if self.check_isFinished() == False:
-                print(f'sudoku not finished, But this is the remain table')
-                print(f'{table}')
-                break
+            self.check_all_OneChance()
       
     def tableDetailer(self):
         self.detailedTable.clear()
         for r, row in enumerate(self.table):
             for c, number in enumerate(row):
-                forbiddenNumbers = self.check_singleSquare(r, c)
+                forbiddenNumbers = self.check_singleSquare(r,c)
                 possibleNumbers = self.convertToPossibleNumbers(forbiddenNumbers)
                 squareNumber = self.convertToSquareNumber(r,c)
                 
@@ -109,6 +118,160 @@ class sudokuSolver:
         else:
             return self.state.error
 
+    def check_all_OneChance(self):
+        somethingChange = [False, False, False]
+        somethingChange[0] = self.check_All3x3Square_OneChance()
+        self.tableDetailer()
+        somethingChange[1] = self.check_AllColumn_OneChance()
+        self.tableDetailer()
+        somethingChange[2] = self.check_AllLine_OneChance()
+        self.tableDetailer()
+        
+        if True in somethingChange:
+            while True in somethingChange:
+                somethingChange = [False, False, False]
+                somethingChange[0] = self.check_All3x3Square_OneChance()
+                self.tableDetailer()
+                somethingChange[1] = self.check_AllColumn_OneChance()
+                self.tableDetailer()
+                somethingChange[2] = self.check_AllLine_OneChance()
+                self.tableDetailer()
+        else:
+            return False
+        return True
+    
+    def check_3x3Square_OneChance(self, squareNumber):
+        somethingChange = False
+        possibleNumbers = {
+            '1':0,
+            '2':0,
+            '3':0,
+            '4':0,
+            '5':0,
+            '6':0,
+            '7':0,
+            '8':0,
+            '9':0
+        }
+        # print(self.detailedTable)
+        for square in self.detailedTable:
+            if square['squareNumber'] == squareNumber:
+                for number in square['possibleNumbers']:
+                    if square['isConstant'] == False:
+                        possibleNumbers[str(number)] += 1
+                        
+        oneChanceNumbers = list()
+        for possibleNumber, repetitions in possibleNumbers.items():
+            if repetitions == 1:
+                oneChanceNumbers.append(int(possibleNumber))
+        
+        for oneChanceNumber in oneChanceNumbers:
+            for square in self.detailedTable:
+                if square['squareNumber'] == squareNumber:
+                    if oneChanceNumber in square['possibleNumbers']:
+                        somethingChange = True
+                        square['possibleNumbers'] = [oneChanceNumber]
+                        self.check_oneChanceNumber()
+                        break
+            
+        print(f'Square Number: {squareNumber}')
+        print(f'Possible Numbers: {possibleNumbers}')
+        return somethingChange
+
+    def check_All3x3Square_OneChance(self):
+        for i in range(0,9):
+            somethingChange = self.check_3x3Square_OneChance(i)
+        return somethingChange
+    
+    def check_Line_OneChance(self, row):
+        somethingChange = False
+        possibleNumbers = {
+            '1':0,
+            '2':0,
+            '3':0,
+            '4':0,
+            '5':0,
+            '6':0,
+            '7':0,
+            '8':0,
+            '9':0
+        }
+        
+        for square in self.detailedTable:
+            if square['row'] == row:
+                for number in square['possibleNumbers']:
+                    if square['isConstant'] == False:
+                        possibleNumbers[str(number)] += 1
+                        
+        oneChanceNumbers = list()
+        for possibleNumber, repetitions in possibleNumbers.items():
+            if repetitions == 1:
+                print(possibleNumber, repetitions)
+                oneChanceNumbers.append(int(possibleNumber))
+
+        for oneChanceNumber in oneChanceNumbers:
+            for square in self.detailedTable:
+                if square['row'] == row:
+                    if oneChanceNumber in square['possibleNumbers']:
+                        somethingChange = True
+                        square['possibleNumbers'] = [oneChanceNumber]
+                        self.check_oneChanceNumber()
+                        break
+            
+        print(f'Row: {row}')
+        print(f'Possible Numbers: {possibleNumbers}')
+        return somethingChange
+
+    def check_AllLine_OneChance(self):
+        for i in range(0,9):
+            somethingChange = self.check_Line_OneChance(i)
+        return somethingChange
+            
+    def check_column_OneChance(self, column):
+        somethingChange = False
+        possibleNumbers = {
+            '1':0,
+            '2':0,
+            '3':0,
+            '4':0,
+            '5':0,
+            '6':0,
+            '7':0,
+            '8':0,
+            '9':0
+        }
+        
+        for square in self.detailedTable:
+            if square['column'] == column:
+                for number in square['possibleNumbers']:
+                    if square['isConstant'] == False:
+                        possibleNumbers[str(number)] += 1
+                        
+        oneChanceNumbers = list()
+        
+        for possibleNumber, repetitions in possibleNumbers.items():
+            if repetitions == 1:
+                print(possibleNumber, repetitions)
+                oneChanceNumbers.append(int(possibleNumber))
+        
+        for oneChanceNumber in oneChanceNumbers:
+            for square in self.detailedTable:
+                if square['column'] == column:
+                    if oneChanceNumber in square['possibleNumbers']:
+                        somethingChange = True
+                        square['possibleNumbers'] = [oneChanceNumber]
+                        self.check_oneChanceNumber()
+                        break
+            
+        print(f'column: {column}')
+        print(f'Possible Numbers: {possibleNumbers}')
+        return somethingChange
+
+    def check_AllColumn_OneChance(self):
+        for i in range(0,9):
+            somethingChange = self.check_column_OneChance(i)
+        return somethingChange
+
     def convertToSquareNumber(self, row, column):
         squareNumber = 0
         
@@ -167,22 +330,23 @@ class sudokuSolver:
             if square["isConstant"] == False:
                 if len(square['possibleNumbers']) == 1:
                     somethingChange = True
-                    self.changes += 1
                     row = square['row']
                     column = square['column']
+                    if row == 6 and column == 5:
+                        print(square)
                     newNumber = square['possibleNumbers'][0]
                     self.table[row][column] = newNumber
                     # print(row, column)
                     # print(f"is now: {newNumber}")
         return somethingChange
-
+    
     def check_isFinished(self):
         for row in table:
             for square in row:
                 if square == 0:
                     return False
-        print(f'The sudoku is solved \n')
-        print(f'{self.table}')
+        print(f'The sudoku is solved ')
+        self.printBeautySudoku()
 
 class tableMaker:
     def __init__(self):
@@ -198,19 +362,18 @@ class tableMaker:
         self.table = self.emptyTable.copy()
         self.table[row][column] = number               
 
-
 table = [
-    [0,8,9,  0,4,0,  2,7,0],
-    [0,0,0,  0,7,0,  0,0,0],
-    [3,0,0,  0,9,0,  0,0,6],
+    [0,0,5,  0,0,0,  6,0,0],
+    [3,1,0,  0,0,0,  0,2,8],
+    [0,7,0,  0,1,0,  0,4,0],
       
-    [0,0,7,  4,0,5,  3,0,0],
-    [6,0,0,  0,0,0,  0,0,4],
-    [0,0,3,  9,0,1,  7,0,0],
+    [9,0,0,  0,2,0,  0,0,3],
+    [0,0,1,  9,3,5,  7,0,0],
+    [4,0,0,  0,7,0,  0,0,6],
       
-    [4,0,0,  0,3,0,  0,0,9],
-    [0,0,0,  0,1,0,  0,0,0],
-    [0,9,2,  0,5,0,  1,8,0]
+    [0,9,0,  0,4,0,  0,6,0],
+    [5,3,0,  0,0,0,  0,7,2],
+    [0,0,4,  0,0,0,  9,0,0]
 ]
 
 if __name__ == '__main__':
