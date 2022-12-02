@@ -1,4 +1,6 @@
 from enum import Enum
+from sudokuUtilities import sudokuUtilities
+from table import table
 
 class sudokuSolver:
     def __init__(self):
@@ -6,27 +8,36 @@ class sudokuSolver:
         self.detailedTable = list()
         self.state = Enum('state', ['error'])
         self.changes = 0
+        self.bigSquare_Changes = 0
+        self.line_Changes = 0
+        self.column_Changes = 0
         self.utilities = sudokuUtilities()
          
     def solveSudoku(self, table):
         self.table = table
+        print('sudokuSolver start to Check for errors')
+        if self.check_logicError():
+            return self.stopSolving()
         print('sudokuSolver start to solve the sudoku')
         self.tableDetailer()
         print('table detailed')
-        
-        iterations = 0
-        while self.check_isFinished() == False:
-            self.check_all_OneChance()
-            iterations += 1
-            if iterations >= 81:
+        while True:
+            somethingChange = self.check_all_OneChance()
+            if somethingChange == False:
                 break
-        return self.table
-        
+        return self.check_isFinished()
+    
+    def stopSolving(self):
+        print('Imposible sudoku')
+    
     def tableDetailer(self):
         self.detailedTable.clear()
         for r, row in enumerate(self.table):
             for c, number in enumerate(row):
-                forbiddenNumbers = self.check_singleSquare(r,c)
+                if self.check_singleSquare(r,c) != self.state.error:
+                    forbiddenNumbers = self.check_singleSquare(r,c)
+                else:
+                    return self.stopSolving()
                 possibleNumbers = self.convertToPossibleNumbers(forbiddenNumbers)
                 squareNumber = self.utilities.convertToSquareNumber(r,c)
                 
@@ -43,10 +54,27 @@ class sudokuSolver:
         # for i in self.detailedTable:
         #     self.detailedTableJson.append(json.dumps(i))        
     
-    def check_logicError(self, numbers):
-        for number in numbers:
-            if numbers.count(number) >= 2:
-                return True
+    def check_logicError(self):
+
+        
+        for row in self.table:
+            for number in row:
+                if number != 0 and row.count(number) >= 2:
+                    return True
+                
+        columnNumbers = list()
+        for column in range(9):
+            columnNumbers.append(list())
+            
+        for row in self.table:
+            for i, number in enumerate(row):
+                columnNumbers[i].append(number)
+        
+        for column in columnNumbers:
+            for number in column:
+                if number != 0 and columnNumbers.count(number) >= 2:
+                    return True
+                    
         return False
 
     def check_Line(self, line):
@@ -54,7 +82,7 @@ class sudokuSolver:
         for square in self.table[line]:
             if(square != 0):
                 forbiddenNumbers.append(square)
-        if self.check_logicError(forbiddenNumbers) == False:
+        if self.check_logicError() == False:
             return forbiddenNumbers
         else:
             return self.state.error
@@ -66,7 +94,7 @@ class sudokuSolver:
                 if i == column and square != 0:
                     forbiddenNumbers.append(square)
             
-        if self.check_logicError(forbiddenNumbers) == False:
+        if self.check_logicError() == False:
             return forbiddenNumbers
         else:
             return self.state.error
@@ -93,7 +121,7 @@ class sudokuSolver:
             for column in range(startingColumn, startingColumn + 3):
                 if self.table[row][column] != 0:
                     forbiddenNumbers.append(self.table[row][column])
-        if self.check_logicError(forbiddenNumbers) == False:
+        if self.check_logicError() == False:
             return forbiddenNumbers
         else:
             return self.state.error
@@ -101,21 +129,16 @@ class sudokuSolver:
     def check_all_OneChance(self):
         somethingChange = [False, False, False]
         somethingChange[0] = self.check_All3x3Square_OneChance()
-        self.tableDetailer()
         somethingChange[1] = self.check_AllColumn_OneChance()
-        self.tableDetailer()
         somethingChange[2] = self.check_AllLine_OneChance()
-        self.tableDetailer()
         
         if True in somethingChange:
             while True in somethingChange:
+                self.tableDetailer()
                 somethingChange = [False, False, False]
                 somethingChange[0] = self.check_All3x3Square_OneChance()
-                self.tableDetailer()
                 somethingChange[1] = self.check_AllColumn_OneChance()
-                self.tableDetailer()
                 somethingChange[2] = self.check_AllLine_OneChance()
-                self.tableDetailer()
         else:
             return False
         return True
@@ -148,6 +171,7 @@ class sudokuSolver:
             for square in self.detailedTable:
                 if square['squareNumber'] == squareNumber:
                     if oneChanceNumber in square['possibleNumbers']:
+                        self.bigSquare_Changes += 1
                         somethingChange = True
                         square['possibleNumbers'] = [oneChanceNumber]
                         self.check_oneChanceNumber()
@@ -156,8 +180,15 @@ class sudokuSolver:
         return somethingChange
 
     def check_All3x3Square_OneChance(self):
+        somethingChange = list()
         for i in range(0,9):
-            somethingChange = self.check_3x3Square_OneChance(i)
+            somethingChange.append(list())
+            
+        for i in range(0,9):
+            somethingChange[i] = self.check_3x3Square_OneChance(i)
+        
+        somethingChange = True if True in somethingChange else False
+        
         return somethingChange
     
     def check_Line_OneChance(self, row):
@@ -189,6 +220,7 @@ class sudokuSolver:
             for square in self.detailedTable:
                 if square['row'] == row:
                     if oneChanceNumber in square['possibleNumbers']:
+                        self.line_Changes += 1
                         somethingChange = True
                         square['possibleNumbers'] = [oneChanceNumber]
                         self.check_oneChanceNumber()
@@ -196,8 +228,13 @@ class sudokuSolver:
         return somethingChange
 
     def check_AllLine_OneChance(self):
+        somethingChange = list()
         for i in range(0,9):
-            somethingChange = self.check_Line_OneChance(i)
+            somethingChange.append(list())
+            
+        for i in range(0,9):
+            somethingChange[i] = self.check_Line_OneChance(i)
+        somethingChange = True if True in somethingChange else False
         return somethingChange
             
     def check_column_OneChance(self, column):
@@ -230,6 +267,7 @@ class sudokuSolver:
             for square in self.detailedTable:
                 if square['column'] == column:
                     if oneChanceNumber in square['possibleNumbers']:
+                        self.column_Changes += 1
                         somethingChange = True
                         square['possibleNumbers'] = [oneChanceNumber]
                         self.check_oneChanceNumber()
@@ -238,17 +276,32 @@ class sudokuSolver:
         return somethingChange
 
     def check_AllColumn_OneChance(self):
+        somethingChange = list()
         for i in range(0,9):
-            somethingChange = self.check_column_OneChance(i)
+            somethingChange.append(list())
+            
+        for i in range(0,9):
+            somethingChange[i] = self.check_column_OneChance(i)
+        somethingChange = True if True in somethingChange else False
         return somethingChange
 
     def check_singleSquare(self, row, column):
         forbiddenNumbers = set()    
         squareNumber = self.utilities.convertToSquareNumber(row, column)
         
-        forbiddenNumbers.update( set(self.check_3x3Square(squareNumber)) )
-        forbiddenNumbers.update( set(self.check_Column(column)) )
-        forbiddenNumbers.update( set(self.check_Line(row)) )
+        if self.check_3x3Square(squareNumber) != self.state.error:
+            forbiddenNumbers.update( set(self.check_3x3Square(squareNumber)) )
+        else:
+            return self.state.error
+        if self.check_Column(column) != self.state.error:
+            forbiddenNumbers.update( set(self.check_Column(column)) )
+        else:
+            return self.state.error
+        if self.check_Line(row) != self.state.error:
+            forbiddenNumbers.update( set(self.check_Line(row)) )
+        else:
+            return self.state.error
+
         forbiddenNumbers = list(forbiddenNumbers)    
         
         return forbiddenNumbers
@@ -276,81 +329,18 @@ class sudokuSolver:
         for row in self.table:
             for square in row:
                 if square == 0:
+                    print('The sudoku is not finished yet')
+                    self.utilities.printBeautySudoku(self.table)
                     return False
+        self.changes = self.bigSquare_Changes + self.line_Changes + self.column_Changes
         print(f'The sudoku is solved ')
+        print(f'Changes: {self.changes}')
+        print(f'3x3 square: {self.bigSquare_Changes}')
+        print(f'line Changes: {self.line_Changes}')
+        print(f'Column Changes: {self.column_Changes}')
         return self.utilities.printBeautySudoku(self.table)
 
-class sudokuUtilities:
-    def __init__(self) -> None:
-        pass
-    def convertToSquareNumber(self, row, column):
-        squareNumber = 0
-        
-        if row < 3:
-            if column < 3:
-                squareNumber = 0
-            elif column < 6:
-                squareNumber = 1
-            else:
-                squareNumber = 2
-        elif row < 6:
-            if column < 3:
-                squareNumber = 3
-            elif column < 6:
-                squareNumber = 4
-            else:
-                squareNumber = 5
-        else:
-            if column < 3:
-                squareNumber = 6
-            elif column < 6:
-                squareNumber = 7
-            else:
-                squareNumber = 8
-                
-        return squareNumber
-    
-    def printBeautySudoku(self, table):
-        sudokuText = ''
-        separators = [2, 5]
-        for row in table:
-            for c, number in enumerate(row):
-                sudokuText += str(number) + ' '
-                if c in separators:
-                    sudokuText += '\t'
-            sudokuText += '\n'
-            if table.index(row) in separators:
-                sudokuText += '\n'
-        
-        return print(sudokuText)
-    
-""" table = [
-    [0, 9, 2,    0, 0, 0,    3, 5, 0],
-    [0, 0, 0,    3, 0, 2,    0, 0, 0],
-    [0, 0, 1,    0, 7, 0,    9, 0, 0],
-    
-    [0, 4, 0,    9, 0, 3,    0, 2, 0],
-    [9, 0, 3,    0, 2, 0,    8, 0, 1],
-    [0, 7, 0,    1, 0, 8,    0, 3, 0],
-    
-    [0, 0, 7,    0, 6, 0,    1, 0, 0],
-    [0, 0, 0,    8, 0, 4,    0, 0, 0],
-    [0, 3, 5,    0, 0, 0,    4, 9, 0]
-] """
 
 if __name__ == '__main__':
-    table = [
-    [0, 9, 2,    0, 0, 0,    3, 5, 0],
-    [0, 0, 0,    3, 0, 2,    0, 0, 0],
-    [0, 0, 1,    0, 7, 0,    9, 0, 0],
-    
-    [0, 4, 0,    9, 0, 3,    0, 2, 0],
-    [9, 0, 3,    0, 2, 0,    8, 0, 1],
-    [0, 7, 0,    1, 0, 8,    0, 3, 0],
-    
-    [0, 0, 7,    0, 6, 0,    1, 0, 0],
-    [0, 0, 0,    8, 0, 4,    0, 0, 0],
-    [0, 3, 5,    0, 0, 0,    4, 9, 0]
-]
     sudolver = sudokuSolver()
     sudolver.solveSudoku(table)

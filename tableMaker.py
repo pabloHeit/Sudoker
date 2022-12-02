@@ -3,11 +3,14 @@ from tkinter import ttk
 from tkinter import font
 from tkinter import *
 from functools import partial
-from sudoker import sudokuSolver
+from sudoker import sudokuSolver, sudokuUtilities
+from asyncore import read
+from table import table
 
 class tableMaker(tk.Tk):
     def __init__(self, prefabTable = None):
         super().__init__()
+        self.utilities = sudokuUtilities()
         self.title("Sudoku Board")
         self.prefabTable = prefabTable
         self.sudokuTable = []
@@ -87,7 +90,10 @@ class tableMaker(tk.Tk):
     def updateBoard(self):
         self.convertListToSudoku()
         for cell in self.cells.items():
-            cell[1]['text'] = self.sudokuTable[cell[0]-1]
+            if self.sudokuTable[cell[0]-1] != 0:
+                cell[1]['text'] = self.sudokuTable[cell[0]-1]
+            else:
+                cell[1]['text'] = ''
                                       
     def increaseNumber(self, row, column):
         button = self.cells[(row-1)*9 + column]
@@ -107,7 +113,8 @@ class tableMaker(tk.Tk):
             number = ''
         button['text'] = number        
 
-    def convertSudokuToList(self):        
+    def convertSudokuToList(self):
+        self.formatedSudokuTable.clear()
         for row in range(9):
             self.formatedSudokuTable.append(list())            
         
@@ -121,13 +128,14 @@ class tableMaker(tk.Tk):
                 row += 1 
 
     def convertListToSudoku(self):
+        self.sudokuTable.clear()
         for row in self.formatedSudokuTable:
             for number in row:
                 self.sudokuTable.append(number)
 
     def printBoard(self):
         self.convertSudokuToList()
-        print(self.formatedSudokuTable)
+        self.utilities.printBeautySudoku(self.formatedSudokuTable)
     
     def solveSudoku(self):
         self.convertSudokuToList()
@@ -136,25 +144,8 @@ class tableMaker(tk.Tk):
         sudoku.solveSudoku(self.formatedSudokuTable)
         self.updateBoard()
         
-def main():
-    table =    [
-        [0, 9, 2,    0, 0, 0,    3, 5, 0],
-        [0, 0, 0,    3, 0, 2,    0, 0, 0],
-        [0, 0, 1,    0, 7, 0,    9, 0, 0],
-        
-        [0, 4, 0,    9, 0, 3,    0, 2, 0],
-        [9, 0, 3,    0, 2, 0,    8, 0, 1],
-        [0, 7, 0,    1, 0, 8,    0, 3, 0],
-        
-        [0, 0, 7,    0, 6, 0,    1, 0, 0],
-        [0, 0, 0,    8, 0, 4,    0, 0, 0],
-        [0, 3, 5,    0, 0, 0,    4, 9, 0]
-    ]
+if __name__ == '__main__':
     board = tableMaker(table)
     board.mainloop()
-    # sudolver = sudokuSolver()
-    # sudolver.solveSudoku(table)
-
-if __name__ == '__main__':
-    main()
+    
     
