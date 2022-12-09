@@ -139,13 +139,12 @@ class tableMaker(tk.Tk):
     
     def solveSudoku(self):
         self.convertSudokuToList()
-        print(self.formatedSudokuTable)
         sudoku = sudokuSolver()
-        sudoku.solveSudoku(self.formatedSudokuTable)
+        self.formatedSudokuTable = sudoku.solveSudoku(self.formatedSudokuTable)
         self.updateBoard()
         
 if __name__ == '__main__':
-    board = tableMaker(table)
+    board = tableMaker()
     board.mainloop()
     
     
